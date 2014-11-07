@@ -1,8 +1,10 @@
 # Colonel Kurtz
 
-A Block Editor
+A block editor. Supports nested data structures.
 
 Pardon the dust. This is very in development, and very not ready for any type of use right now.
+
+![demo gif](https://s3.amazonaws.com/kurtzkloud.com/col-kurtz-editor-2.gif)
 
 ## Setup
 
