@@ -1,0 +1,61 @@
+{
+  "name": "Capacitor",
+  "version": "1.0.0",
+  "description": "A Flux boilerplate app.",
+  "main": "src/index.js",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "scripts": {
+    "start": "node server",
+    "test": "jest",
+    "test:accessibility": "pa11y http://localhost:3000",
+    "test:integration": "mocha test/integration",
+    "postinstall": "./scripts/production.sh"
+  },
+  "keywords": [
+    "flux",
+    "react"
+  ],
+  "author": "Nate Hunzaker",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vigetlabs/capacitor.git"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/test/jestPreprocessor.js",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/immutable"
+    ]
+  },
+  "dependencies": {
+    "colors": "^1.0.2",
+    "flux": "^2.0.1",
+    "good": "^3.0.1",
+    "hapi": "^7.0.0",
+    "immutable": "^2.1.0",
+    "jquery": "latest",
+    "node-env-file": "^0.1.4",
+    "node-jsx": "^0.11.0",
+    "react": "^0.11.2",
+    "react-router": "^0.9.3",
+    "swig": "^1.4.2",
+    "envify": "^1.2.1",
+    "envify-loader": "^0.1.0",
+    "json-loader": "^0.5.1",
+    "jsx-loader": "^0.11.2",
+    "react-hot-loader": "^0.4.5",
+    "react-tools": "^0.11.2",
+    "webpack": "^1.4.5"
+  },
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "jest-cli": "^0.1.18",
+    "mocha": "^2.0.1",
+    "pa11y": "^1.6.2",
+    "webdriverio": "^2.3.0",
+    "webpack-dev-server": "^1.6.5"
+  }
+}
