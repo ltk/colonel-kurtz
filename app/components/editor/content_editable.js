@@ -4,6 +4,7 @@ var React = require('react')
 var ContentEditable = React.createClass({
     render() {
         return <div
+            className="content-editable"
             onInput={ this.emitChange }
             onBlur={ this.emitChange }
             contentEditable

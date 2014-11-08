@@ -26,9 +26,7 @@ var AddBlock = React.createClass({
   addImageBlock() {
     var newBlock = {
       type: 'image',
-      content: {
-        text: 'This is a new image block.'
-      }
+      content: {}
     }
 
     this.addBlock(newBlock)
