@@ -2,7 +2,7 @@
 var React = require('react')
 var BlockListStore = require('../stores/block_list_store')
 
-var PreviewerJsonConsole =  React.createClass({
+var JsonConsole =  React.createClass({
 
   getInitialState() {
     return {
@@ -39,4 +39,4 @@ var PreviewerJsonConsole =  React.createClass({
 
 })
 
-module.exports = PreviewerJsonConsole
+module.exports = JsonConsole

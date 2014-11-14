@@ -2,6 +2,7 @@
 var React = require('react')
 var EditorComponent = require('./editor')
 var PreviewerComponent = require('./previewer')
+var JsonConsoleComponent = require('./json_console')
 
 var App =  React.createClass({
 
@@ -23,12 +24,17 @@ var App =  React.createClass({
     this.setState({ mode: 'edit' })
   },
 
+  setModeToJsonConsole() {
+    this.setState({ mode: 'json_console' })
+  },
+
   modeSelectionComponent() {
     if (this.state.mode === 'edit') {
       return(
         <div>
           <button disabled>Edit</button>
           <button onClick={ this.setModeToPreview }>Preview</button>
+          <button onClick={ this.setModeToJsonConsole }>JSON Console</button>
         </div>
       )
     } else if (this.state.mode === 'preview') {
@@ -36,6 +42,15 @@ var App =  React.createClass({
         <div>
           <button onClick={ this.setModeToEdit }>Edit</button>
           <button disabled>Preview</button>
+          <button onClick={ this.setModeToJsonConsole }>JSON Console</button>
+        </div>
+      );
+    } else if (this.state.mode === 'json_console') {
+      return(
+        <div>
+          <button onClick={ this.setModeToEdit }>Edit</button>
+          <button onClick={ this.setModeToPreview }>Preview</button>
+          <button disabled>JSON Console</button>
         </div>
       );
     }
@@ -50,7 +65,12 @@ var App =  React.createClass({
       return(
         <PreviewerComponent initialBlockListId={ this.getBlockListId() } />
       )
+    } else if (this.state.mode === 'json_console') {
+      return(
+        <JsonConsoleComponent initialBlockListId={ this.getBlockListId() } />
+      );
     }
+
   },
 
   render() {
