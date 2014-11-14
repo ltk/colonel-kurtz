@@ -1,11 +1,16 @@
 /** @jsx React.DOM **/
 var React = require('react')
-var ContentEditable = require('../content_editable')
+var ContentEditable = require('../../content_editable')
+var Block = require('../../mixins/block')
+var MoveableBlock = require('../../mixins/moveable_block')
+var DeletableBlock = require('../../mixins/deletable_block')
 
-var ImageBlock = React.createClass({
-  typeLabel(){
-    return "Image"
-  },
+var ImageBlockEditor = React.createClass({
+  mixins: [
+    Block,
+    MoveableBlock,
+    DeletableBlock
+  ],
 
   valid(){
     return (this.props.block.content.image_url && this.props.block.content.image_alt_text)
@@ -17,10 +22,6 @@ var ImageBlock = React.createClass({
 
   className() {
     return ["block", this.validityClassName()].join(' ')
-  },
-
-  delete() {
-    this.props.blockSet.deleteAtPosition(this.props.block.position)
   },
 
   imageContent() {
@@ -52,13 +53,15 @@ var ImageBlock = React.createClass({
 
   render() {
     return(
-      <li className={ this.className() }>
-        <div className="delete-block" onClick={ this.delete }>Delete</div>
-        <span className="block-type-label">{ this.typeLabel() }</span>
+      <li className={ this.className() } key={ this.props.key}>
+        { this.deleteButton() }
+        { this.typeLabel() }
+        { this.moveButtons() }
+
         { this.imageContent() }
       </li>
     );
   }
 })
 
-module.exports = ImageBlock
+module.exports = ImageBlockEditor

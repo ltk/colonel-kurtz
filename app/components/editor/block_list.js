@@ -1,7 +1,6 @@
 /** @jsx React.DOM **/
 var React = require('react')
 var Block = require('./block')
-var NewBlock = require('./new_block')
 var AddBlock = require('./add_block')
 
 var BlockList = React.createClass({
@@ -12,9 +11,11 @@ var BlockList = React.createClass({
       <AddBlock blockSet={ blockSet } position={ 0 } />
     ]
 
+    // var counter = 0
     blocks.forEach(function(block){
-      components.push(<Block blockSet={ blockSet } block={ block } />)
+      components.push(<Block blockSet={ blockSet } block={ block } key={ block.uid } addBlockComponent={ AddBlock } />)
       components.push(<AddBlock blockSet={ blockSet } position={ block.position + 1 } />)
+      // counter += 1
     })
 
     return components

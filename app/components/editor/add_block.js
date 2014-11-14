@@ -2,59 +2,26 @@
 var React = require('react')
 var BlockStore = require('../../stores/block')
 var BlockSet = require('../../stores/block_set')
+var _ = require('underscore')
+var BlockRegistry = require('./blocks/block_registry')
 
 var AddBlock = React.createClass({
   getInitialState() {
     return { active: false }
   },
 
+  getDefaultProps() {
+    return {
+      blockTypes: BlockRegistry.allKeys()
+    }
+  },
+
   cancel() {
     this.setState({ active: false })
   },
 
-  addTextBlock() {
-    var newBlock = {
-      type: 'text',
-      content: {
-        text: 'This is a new text block!'
-      }
-    }
-
-    this.addBlock(newBlock)
-  },
-
-  addImageBlock() {
-    var newBlock = {
-      type: 'image',
-      content: {}
-    }
-
-    this.addBlock(newBlock)
-  },
-
-  addStepBlock() {
-    var newBlock = {
-      type: 'step',
-      content: {
-        text: 'This is a new step block. You can add other blocks to its content.',
-        blocks: [],
-        blockSet: new BlockSet([])
-      }
-    }
-
-    this.addBlock(newBlock)
-  },
-
-  addCodeBlock() {
-    var newBlock = {
-      type: 'code',
-      content: {
-        text: "function(){\nalert('I'm a code block!');\n}",
-        blockSet: new BlockSet([])
-      }
-    }
-
-    this.addBlock(newBlock)
+  getUid() {
+    return Math.random();
   },
 
   addBlock(block) {
@@ -66,6 +33,31 @@ var AddBlock = React.createClass({
     this.setState({ active: true })
   },
 
+  addBlockCallback(component, blockTypeDefinition) {
+    return function() {
+      var newBlock = {
+        type: blockTypeDefinition.key,
+        label: blockTypeDefinition.label,
+        uid: component.getUid(),
+        content: blockTypeDefinition.defaultContent
+      }
+
+      component.addBlock(newBlock)
+    }
+  },
+
+  renderOptions() {
+    var component = this
+
+    return this.props.blockTypes.map(function(blockType){
+      var blockTypeDef = BlockRegistry.find(blockType)
+
+      return(
+        <li className="block-option" onClick={ component.addBlockCallback(component, blockTypeDef) }>{ blockTypeDef.label }</li>
+      )
+    })
+  },
+
   render() {
     if(this.state.active) {
       return (
@@ -73,10 +65,7 @@ var AddBlock = React.createClass({
           <div className="cancel" onClick={ this.cancel }>Cancel</div>
           <p><strong>Choose your new block type.</strong></p>
           <ul className="block-options">
-            <li className="block-option" onClick={ this.addTextBlock }>Text</li>
-            <li className="block-option" onClick={ this.addImageBlock }>Image</li>
-            <li className="block-option" onClick={ this.addStepBlock }>Step</li>
-            <li className="block-option" onClick={ this.addCodeBlock }>Code</li>
+            { this.renderOptions() }
           </ul>
         </div>
       )

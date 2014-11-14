@@ -2,10 +2,8 @@
 var React = require('react')
 var BlockStore = require('../../stores/block')
 var BlockList = require('./block_list')
-var EditorJsonDisplay = require('./editor_json_display')
-// var BlockActions = require('../../actions/block')
-// var Counter = require('../../stores/counter')
-// var CounterActions = require('../../actions/counter')
+var EditorJsonConsole = require('./editor_json_console')
+var HtmlOutput = require('./html_output')
 
 var ColonelKurtz = React.createClass({
 
@@ -14,9 +12,9 @@ var ColonelKurtz = React.createClass({
   },
 
   getState() {
-    // debugger;
     return {
-      blockSet: BlockStore.getBlockSet()
+      blockSet: BlockStore.getBlockSet(),
+      preview: false
     }
   },
 
@@ -32,12 +30,54 @@ var ColonelKurtz = React.createClass({
     BlockStore.offChange(this.updateState)
   },
 
+  toHtml() {
+    return React.renderComponentToStaticMarkup(<HtmlOutput blockSet={ this.state.blockSet } />)
+  },
+
+  toJson() {
+    var json = {
+      blocks: this.state.blockSet.toJson(),
+      compiled: this.toHtml()
+    }
+
+    return json
+  },
+
+  enablePreview() {
+    this.setState({ preview: true })
+  },
+
+  disablePreview() {
+    this.setState({ preview: false })
+  },
+
+  editorComponents() {
+    if (this.state.preview) {
+      return(
+        <div>
+          <button onClick={ this.disablePreview }>Edit</button>
+          <HtmlOutput blockSet={ this.state.blockSet } />
+        </div>
+      )
+    } else {
+      //<EditorJsonConsole json={ this.toJson() } />
+      //<textarea className="hidden-textarea" value={ JSON.stringify(this.toJson()) }></textarea>
+      return(
+        <div>
+          <button onClick={ this.enablePreview }>Preview</button>
+          <BlockList blockSet={ this.state.blockSet } />
+          <hr/>
+
+        </div>
+      )
+
+    }
+  },
+
   render() {
     return (
       <div>
-        <BlockList blockSet={ this.state.blockSet } />
-        <EditorJsonDisplay json={ this.state.blockSet.toJson() } />
-        <textarea className="hidden-textarea" value={ JSON.stringify(this.state.blockSet.toJson()) }></textarea>
+        { this.editorComponents() }
       </div>
     )
   }

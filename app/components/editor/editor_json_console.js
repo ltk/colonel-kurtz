@@ -1,7 +1,7 @@
 /** @jsx React.DOM **/
 var React = require('react')
 
-var EditorJsonDisplay = React.createClass({
+var EditorJsonConsole = React.createClass({
 
   render() {
     return (
@@ -14,4 +14,4 @@ var EditorJsonDisplay = React.createClass({
 
 })
 
-module.exports = EditorJsonDisplay
+module.exports = EditorJsonConsole

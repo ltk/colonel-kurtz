@@ -1,55 +1,54 @@
 var Events     = require('events')
 var Dispatcher = require('../dispatcher')
 var Actions    = require('../constants/block')
-// var BlockSetActions = require('../constants/actions').BLOCK_SET
 var Immutable  = require('immutable')
 var merge      = require('react/lib/merge')
 var BlockSet   = require('./block_set')
 
-var _data = new BlockSet([
-  {
-    type: 'text',
-    content: {
-      text: "I'm a text block."
-    }
-  },
-  {
-    type: 'code',
-    content: {
-      text: "function(){ alert('I'm a code block!'); }"
-    }
-  },
-  {
-    type: 'step',
-    content: {
-      text: 'This is a component with nested blocks.',
-      blocks: [
-        {
-          type: 'text',
-          content: {
-            text: 'Nested text block.'
-          }
-        },
-        {
-          type: 'step',
-          content: {
-            text: 'Such nesting.',
-            blocks: [
-              {
-                type: 'text',
-                content: {
-                  text: 'Nested text block.',
-                  blocks: []
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
-  }
+// var _data = new BlockSet([
+//   {
+//     type: 'text',
+//     content: {
+//       text: "I'm a text block."
+//     }
+//   },
+//   {
+//     type: 'code',
+//     content: {
+//       text: "function(){ alert('I'm a code block!'); }"
+//     }
+//   },
+//   {
+//     type: 'step',
+//     content: {
+//       text: 'This is a component with nested blocks.',
+//       blocks: [
+//         {
+//           type: 'text',
+//           content: {
+//             text: 'Nested text block.'
+//           }
+//         },
+//         {
+//           type: 'step',
+//           content: {
+//             text: 'Such nesting.',
+//             blocks: [
+//               {
+//                 type: 'text',
+//                 content: {
+//                   text: 'Nested text block.',
+//                   blocks: []
+//                 }
+//               }
+//             ]
+//           }
+//         }
+//       ]
+//     }
+//   }
 
-])
+// ])
 
 var _data = new BlockSet([])
 
@@ -82,11 +81,14 @@ var _data = new BlockSet([])
 
 var Block = merge(Events.EventEmitter.prototype, {
 
+  seedFromJson(json) {
+    // debugger;
+    _data = new BlockSet(json.blocks)
+  },
   /**
    * Adds an event listener to subscribe to data changes
    */
   onChange(callback) {
-    // debugger;
     this.on(Actions.CHANGE, callback)
     // this.on(BlockSetActions.CHANGE, callback)
   },
@@ -108,7 +110,6 @@ var Block = merge(Events.EventEmitter.prototype, {
   // },
 
   getBlockSet() {
-    // debugger;
     return _data;
   },
 
@@ -152,7 +153,6 @@ module.exports = Block
 Dispatcher.register(function(action) {
   switch (action.type) {
     case Actions.UPDATE:
-      // debugger;
       Block.emit(Actions.CHANGE)
       break
     default:

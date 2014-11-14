@@ -2,7 +2,7 @@
 var emitter = require('events').EventEmitter
 var Actions = require('../constants/block')
 var BlockActions = require('../actions/block')
-var jQuery = require('jquery')
+var _ = require('underscore')
 // var BlockStore = require('./block')
 
 var BlockSet = function(blocks) {
@@ -119,6 +119,39 @@ var BlockSet = function(blocks) {
 
 // })
 
+BlockSet.prototype.isBlockSet = true
+
+BlockSet.deepCloneNonBlockSets = function(obj) {
+  var depth = 5
+  if (!obj || (typeof obj !== 'object')) return obj
+  else if (_.isString(obj)) return String.prototype.slice.call(obj)
+  else if (_.isDate(obj)) return new Date(obj.valueOf())
+  else if (_.isFunction(obj.clone)) return obj.clone()
+  var clone
+  if (_.isArray(obj)) clone = Array.prototype.slice.call(obj)
+  else if (obj.constructor!=={}.constructor) return obj
+  else clone = _.extend({}, obj)
+  if (!_.isUndefined(depth) && (depth > 0)) {
+    for (var key in clone) {
+      if (clone[key].isBlockSet) {
+        delete clone[key]
+      } else {
+        clone[key] = BlockSet.deepCloneNonBlockSets(clone[key], depth-1)
+      }
+    }
+  }
+
+  return clone
+}
+
+BlockSet.prototype.maxIndex = function() {
+  return _.max(this._blocks.map(function(block){ return block.position }))
+}
+
+BlockSet.prototype.minIndex = function() {
+  return _.min(this._blocks.map(function(block){ return block.position }))
+}
+
 BlockSet.prototype.blocks = function() {
   return this._blocks;
 }
@@ -128,8 +161,8 @@ BlockSet.prototype.toJson = function() {
 }
 
 BlockSet.prototype._blockToJson = function(block) {
-  // var clone = deepCopy(block)
-  var clone = jQuery.extend(true, {}, block);
+  var clone = BlockSet.deepCloneNonBlockSets(block)
+
   if (clone.content.blockSet) {
     clone.content.blocks = clone.content.blockSet.toJson()
     delete clone.content.blockSet
@@ -142,6 +175,18 @@ BlockSet.prototype.insertBlockAt = function(block, position) {
   this._incrementBlockPositionsAfter(position)
   block.position = position
   this._blocks.unshift(block)
+  this._sortBlocksByPosition()
+  BlockActions.update()
+}
+
+BlockSet.prototype.positionOf = function(block) {
+  return this._blocks.indexOf(block)
+}
+
+BlockSet.prototype.moveBlockTo = function(block, newPosition) {
+  var originalPosition = this.positionOf(block)
+  this.deleteAtPosition(originalPosition)
+  this.insertBlockAt(block, newPosition)
   this._sortBlocksByPosition()
   BlockActions.update()
 }
@@ -159,6 +204,7 @@ BlockSet.prototype.deleteAtPosition = function(position) {
     }
   })
 
+  this._sortBlocksByPosition()
   BlockActions.update()
 }
 
@@ -177,6 +223,16 @@ BlockSet.prototype._incrementBlockPositionsAfter = function(position) {
 
 BlockSet.prototype._sortBlocksByPosition = function() {
   this._blocks.sort(this._sortByPosition)
+  this._resetPositions()
+}
+
+BlockSet.prototype._resetPositions = function() {
+  var counter = 0
+
+  this._blocks.map(function(block){
+    block.position = counter
+    counter += 1
+  })
 }
 
 BlockSet.prototype._sortByPosition = function(a, b) {

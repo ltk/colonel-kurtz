@@ -2,9 +2,11 @@
 var React = require('react')
 var ContentEditable = require('../content_editable')
 var AddBlock = require('../add_block')
-// var renderBlock = require('../../../render_block')
+var MoveableBlock = require('../mixins/moveable_block')
 
 var StepBlock = React.createClass({
+  mixins: [MoveableBlock],
+
   typeLabel(){
     return "Step"
   },
@@ -25,7 +27,7 @@ var StepBlock = React.createClass({
     ]
 
     blocks.forEach(function(block){
-      // components.push(renderBlock(block))
+      components.push(<Block blockSet={ blockSet } block={ block } />)
       components.push(<AddBlock blockSet={ blockSet } position={ block.position + 1 } />)
     })
 
@@ -55,9 +57,10 @@ var StepBlock = React.createClass({
 
   render() {
     return(
-      <li className="block">
+      <li className="block" key={ this.props.key }>
         <div className="delete-block" onClick={ this.delete }>Delete</div>
         <span className="block-type-label">{ this.typeLabel() }</span>
+        { this.moveComponents() }
         { this.textContent() }
         { this.nestedBlockList() }
       </li>
@@ -66,3 +69,5 @@ var StepBlock = React.createClass({
 })
 
 module.exports = StepBlock
+
+var Block = require('../block')
