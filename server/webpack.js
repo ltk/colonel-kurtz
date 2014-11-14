@@ -20,7 +20,7 @@ var server = new Server(compiler, {
   hot: true,
   stats: false,
   watchDelay: 300,
-  contentBase: '/assets',
+  contentBase: "./",
   publicPath: url.resolve(location, 'assets')
 })
 

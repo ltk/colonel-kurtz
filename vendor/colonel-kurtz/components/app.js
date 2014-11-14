@@ -29,31 +29,17 @@ var App =  React.createClass({
   },
 
   modeSelectionComponent() {
-    if (this.state.mode === 'edit') {
-      return(
-        <div>
-          <button disabled>Edit</button>
-          <button onClick={ this.setModeToPreview }>Preview</button>
-          <button onClick={ this.setModeToJsonConsole }>JSON</button>
+    var mode = this.state.mode;
+
+    return (
+      <div className="colonel-toolbar clearfix">
+        <div className="colonel-btn-group colonel-right">
+          <button className="colonel-btn" disabled={ mode === 'edit' } onClick={ this.setModeToEdit }>Edit</button>
+          <button className="colonel-btn" disabled={ mode === 'preview' } onClick={ this.setModeToPreview }>Preview</button>
+          <button className="colonel-btn" disabled={ mode === 'json_console' } onClick={ this.setModeToJsonConsole }>JSON</button>
         </div>
-      )
-    } else if (this.state.mode === 'preview') {
-      return(
-        <div>
-          <button onClick={ this.setModeToEdit }>Edit</button>
-          <button disabled>Preview</button>
-          <button onClick={ this.setModeToJsonConsole }>JSON</button>
-        </div>
-      );
-    } else if (this.state.mode === 'json_console') {
-      return(
-        <div>
-          <button onClick={ this.setModeToEdit }>Edit</button>
-          <button onClick={ this.setModeToPreview }>Preview</button>
-          <button disabled>JSON</button>
-        </div>
-      );
-    }
+      </div>
+    )
   },
 
   contentComponent() {

@@ -45,7 +45,7 @@ var PreviewerBlockList =  React.createClass({
     return this.state.blockList.blockIds().map(function(blockId) {
       var components = <div>
         <PreviewerBlock key={ blockId } initialBlockId={ blockId } />
-        <button onClick={ rootComponent.addBlockAtPosition(counter) }>Add Block</button>
+        <button className="colonel-btn" onClick={ rootComponent.addBlockAtPosition(counter) }>Add Block</button>
       </div>
 
       counter += 1
@@ -55,8 +55,8 @@ var PreviewerBlockList =  React.createClass({
 
   render() {
     return(
-      <div className="blocks">
-        <button onClick={ this.addBlockAtPosition(0) }>Add Block</button>
+      <div className="colonel-blocks">
+        <button className="colonel-btn" onClick={ this.addBlockAtPosition(0) }>Add Block</button>
         { this.blockComponents() }
       </div>
     )
