@@ -34,7 +34,7 @@ var App =  React.createClass({
         <div>
           <button disabled>Edit</button>
           <button onClick={ this.setModeToPreview }>Preview</button>
-          <button onClick={ this.setModeToJsonConsole }>JSON Console</button>
+          <button onClick={ this.setModeToJsonConsole }>JSON</button>
         </div>
       )
     } else if (this.state.mode === 'preview') {
@@ -42,7 +42,7 @@ var App =  React.createClass({
         <div>
           <button onClick={ this.setModeToEdit }>Edit</button>
           <button disabled>Preview</button>
-          <button onClick={ this.setModeToJsonConsole }>JSON Console</button>
+          <button onClick={ this.setModeToJsonConsole }>JSON</button>
         </div>
       );
     } else if (this.state.mode === 'json_console') {
@@ -50,7 +50,7 @@ var App =  React.createClass({
         <div>
           <button onClick={ this.setModeToEdit }>Edit</button>
           <button onClick={ this.setModeToPreview }>Preview</button>
-          <button disabled>JSON Console</button>
+          <button disabled>JSON</button>
         </div>
       );
     }
