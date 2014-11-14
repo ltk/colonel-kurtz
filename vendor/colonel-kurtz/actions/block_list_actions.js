@@ -4,7 +4,7 @@ var Dispatcher = require('../dispatcher')
 var BlockListActions = {
 
   create(params) {
-    Dispatcher.dispatch({ type: Constants.BLOCK_LIST_CREATE, editorId: params.editorId })
+    Dispatcher.dispatch({ type: Constants.BLOCK_LIST_CREATE, editorId: params.editorId, blockId: params.blockId })
   },
 
   update() {

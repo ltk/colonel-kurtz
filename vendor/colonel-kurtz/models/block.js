@@ -6,6 +6,15 @@ var Block = function(params) {
 
 Block.prototype = {
 
+  childBlockList() {
+    BlockListActions.create({ blockId: this.id })
+
+    return BlockListStore.findByBlockId(this.id)
+  }
+
 }
 
 module.exports = Block
+
+var BlockListStore = require('../stores/block_list_store')
+var BlockListActions = require('../actions/block_list_actions')

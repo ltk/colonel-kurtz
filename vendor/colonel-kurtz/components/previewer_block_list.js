@@ -31,20 +31,32 @@ var PreviewerBlockList =  React.createClass({
     BlockListStore.offChange(this.updateState)
   },
 
-  addBlock() {
-    BlockActions.create({ parentBlockListId: this.state.blockList.id })
+  addBlockAtPosition(position) {
+    var rootComponent = this
+
+    return function() {
+      BlockActions.create({ parentBlockListId: rootComponent.state.blockList.id, position: position })
+    }
   },
 
   blockComponents() {
+    var rootComponent = this
+    var counter = 1
     return this.state.blockList.blockIds().map(function(blockId) {
-      return <PreviewerBlock initialBlockId={ blockId } />
+      var components = <div>
+        <PreviewerBlock key={ blockId } initialBlockId={ blockId } />
+        <button onClick={ rootComponent.addBlockAtPosition(counter) }>Add Block</button>
+      </div>
+
+      counter += 1
+      return components
     })
   },
 
   render() {
     return(
-      <div>
-        <button onClick={ this.addBlock }>Add Block</button>
+      <div className="blocks">
+        <button onClick={ this.addBlockAtPosition(0) }>Add Block</button>
         { this.blockComponents() }
       </div>
     )

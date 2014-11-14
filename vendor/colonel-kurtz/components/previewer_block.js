@@ -10,10 +10,21 @@ var PreviewerBlock =  React.createClass({
     }
   },
 
+  childBlockListComponent() {
+    var childBlockList = this.state.block.childBlockList()
+
+    if (childBlockList) {
+      var PreviewerBlockList = require('./previewer_block_list')
+
+      return <PreviewerBlockList initialBlockListId={ childBlockList.id } />
+    }
+  },
+
   render() {
     return(
-      <div>
+      <div className="block">
         { this.state.block.content }
+        { this.childBlockListComponent() }
       </div>
     )
   }
@@ -21,3 +32,5 @@ var PreviewerBlock =  React.createClass({
 })
 
 module.exports = PreviewerBlock
+
+

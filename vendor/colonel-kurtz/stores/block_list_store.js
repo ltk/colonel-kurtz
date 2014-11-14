@@ -28,6 +28,18 @@ var BlockListStore = merge(Events.EventEmitter.prototype, {
     }
   },
 
+  findByBlockId(blockId) {
+    var blockList = _.find(this.all(), function(blockList) {
+      return blockList.blockId === blockId
+    })
+
+    if (blockList) {
+      return blockList
+    } else {
+      return null
+    }
+  },
+
   find(id) {
     var blockList = _.find(this.all(), function(blockList) {
       return blockList.id === id
@@ -40,15 +52,15 @@ var BlockListStore = merge(Events.EventEmitter.prototype, {
     }
   },
 
-  _create(editorId) {
-    var blockList = new BlockList({ editorId: editorId })
+  _create(params) {
+    var blockList = new BlockList({ editorId: params.editorId, blockId: params.blockId })
     return _blockLists.push(blockList)
     this.emit(Constants.BLOCK_LIST_CREATED)
   },
 
-  _addBlockToList(block) {
+  _addBlockToList(block, position) {
     var blockList = this.find(block.parentBlockListId)
-    blockList.addBlock(block)
+    blockList.insertBlock(block, position)
     this.emit(Constants.BLOCK_LIST_CHANGE)
   },
 
@@ -64,10 +76,10 @@ var BlockListStore = merge(Events.EventEmitter.prototype, {
     switch (action.type) {
       case BlockConstants.BLOCK_CREATE:
         Dispatcher.waitFor([BlockStore.dispatchToken])
-        BlockListStore._addBlockToList(action.block)
+        BlockListStore._addBlockToList(action.block, action.position)
         break;
       case Constants.BLOCK_LIST_CREATE:
-        BlockListStore._create(action.editorId)
+        BlockListStore._create({ editorId: action.editorId, blockId: action.blockId })
         break
       default:
         // do nothing

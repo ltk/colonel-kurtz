@@ -4,7 +4,6 @@ var Dispatcher = require('../dispatcher')
 var Constants = require('../constants/block_constants')
 var Actions = require('../actions/block_actions')
 var BlockListActions = require('../actions/block_list_actions')
-var Block = require('../models/block')
 var _ = require('underscore')
 
 var _blocks = []
@@ -45,3 +44,5 @@ var BlockStore = merge(Events.EventEmitter.prototype, {
 })
 
 module.exports = BlockStore
+
+var Block = require('../models/block')
