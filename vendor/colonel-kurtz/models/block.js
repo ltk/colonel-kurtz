@@ -6,6 +6,21 @@ var Block = function(params) {
 
 Block.prototype = {
 
+  toJson() {
+    var json = {
+      id: this.id,
+      content: this.content
+    }
+
+    var childBlockList = this.childBlockList()
+
+    if (childBlockList) {
+      json.childBlockList = childBlockList.toJson()
+    }
+
+    return json
+  },
+
   childBlockList() {
     BlockListActions.create({ blockId: this.id })
 

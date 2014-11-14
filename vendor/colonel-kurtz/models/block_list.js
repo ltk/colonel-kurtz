@@ -9,6 +9,16 @@ var BlockList = function(params) {
 
 BlockList.prototype = {
 
+  toJson() {
+    return {
+      id: this.id,
+      blocks: this._blockPositions.map(function(blockPosition) {
+        var block = BlockStore.find(blockPosition.blockId)
+        return block.toJson()
+      })
+    }
+  },
+
   blockIds() {
     return this._blockPositions.map(function(blockPosition) {
       return blockPosition.blockId
@@ -65,3 +75,5 @@ BlockList.prototype = {
 }
 
 module.exports = BlockList
+
+var BlockStore = require('../stores/block_store')
