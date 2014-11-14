@@ -22,7 +22,7 @@ var PreviewerBlock =  React.createClass({
 
   render() {
     return(
-      <div className="block">
+      <div className="colonel-block">
         { this.state.block.content }
         { this.childBlockListComponent() }
       </div>
@@ -32,5 +32,3 @@ var PreviewerBlock =  React.createClass({
 })
 
 module.exports = PreviewerBlock
-
-

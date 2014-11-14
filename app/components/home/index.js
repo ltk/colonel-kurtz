@@ -24,11 +24,13 @@ var Home = React.createClass({
   render() {
     return (
       <section>
-        <header>
-          <h1>ColKurtz</h1>
-        </header>
-        <p>This is a demo of the Colonel Kurtz block editor.</p>
-        <div ref="app"></div>
+        <h1 className="colonel-toolbar">
+          ColKurtz
+        </h1>
+        <div className="colonel-body">
+          <p>This is a demo of the Colonel Kurtz block editor.</p>
+          <div ref="app"></div>
+        </div>
       </section>
     )
   }
