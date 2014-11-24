@@ -1,6 +1,7 @@
 /** @jsx React.DOM **/
 var React = require('react')
-var ColonelKurtz = require('../../../vendor/colonel-kurtz/colonel-kurtz')
+// var ColonelKurtz = require('../../../vendor/colonel-kurtz/colonel-kurtz')
+// var ColonelKurtz = require('/Users/lawson/Apps/colonel-kurtz/build')
 
 var Home = React.createClass({
 
@@ -17,8 +18,7 @@ var Home = React.createClass({
   },
 
   componentDidMount() {
-    var editor = new ColonelKurtz(this.refs.app.getDOMNode(), {})
-    editor.render()
+
   },
 
   render() {

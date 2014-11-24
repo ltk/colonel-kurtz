@@ -39,7 +39,7 @@ module.exports = {
         test    : /\.js$/,
         exclude : /node_modules/,
         loader  : 'jsx-loader',
-        query   : { harmony: true }
+        query   : { harmony: true, stripTypes: true }
       },
       {
         test    : /\.json$/,

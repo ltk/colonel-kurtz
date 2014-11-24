@@ -45,7 +45,7 @@
     "envify": "^1.2.1",
     "envify-loader": "^0.1.0",
     "json-loader": "^0.5.1",
-    "jsx-loader": "^0.11.2",
+    "jsx-loader": "latest",
     "react-hot-loader": "^0.4.5",
     "react-tools": "^0.11.2",
     "underscore": "latest",

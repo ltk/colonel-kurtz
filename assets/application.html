@@ -394,6 +394,19 @@
       {% endautoescape %}
     </div>
 
+    <div id="thing"></div>
+
     <script src="/assets/capacitor.js"></script>
+    <script src="https://s3.amazonaws.com/kurtzkloud.com/colkurtz/index.js"></script>
+    <script>
+      var domEl = document.getElementById("thing")
+      var editor = new ColonelKurtz(domEl)
+      console.log(editor)
+      editor.addCallback(function() {
+        console.log(editor.toJSON())
+      })
+      editor.render()
+      editor.simulateChange()
+    </script>
   </body>
 </html>

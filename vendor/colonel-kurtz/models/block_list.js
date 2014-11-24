@@ -25,12 +25,21 @@ BlockList.prototype = {
     })
   },
 
+  removeBlock(blockId) {
+    console.log('remove block ', blockId)
+    this._blockPositions = _.reject(this._blockPositions, function(block) {
+      return blockId === block.id
+    })
+
+    this._cleanup()
+  },
+
   insertBlock(block, position) {
     if (!position) {
       var position = 0
     }
 
-    console.log('inserting at pos ', position)
+    console.log('inserting at pos', position)
 
     this._incrementBlockPositionsAfter(position);
 

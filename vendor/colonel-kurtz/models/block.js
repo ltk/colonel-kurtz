@@ -21,6 +21,14 @@ Block.prototype = {
     return json
   },
 
+  remove() {
+    return this.parentBlockList().removeBlock(this.id)
+  },
+
+  parentBlockList() {
+    return BlockListStore.find(this.parentBlockListId)
+  },
+
   childBlockList() {
     BlockListActions.create({ blockId: this.id })
 

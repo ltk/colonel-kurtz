@@ -1,12 +1,13 @@
+/* @flow */
+
+var _ = require('underscore')
 var merge = require('react/lib/merge')
 var Events = require('events')
-var Dispatcher = require('../dispatcher')
-var Constants = require('../constants/block_list_constants')
-var BlockConstants = require('../constants/block_constants')
-var Actions = require('../actions/block_list_actions')
 var BlockList = require('../models/block_list')
+var BlockListConstants = require('../constants/block_list_constants')
+var Dispatcher = require('../dispatcher')
+var BlockConstants = require('../constants/block_constants')
 var BlockStore = require('../stores/block_store')
-var _ = require('underscore')
 
 var _blockLists = []
 
@@ -55,21 +56,21 @@ var BlockListStore = merge(Events.EventEmitter.prototype, {
   _create(params) {
     var blockList = new BlockList({ editorId: params.editorId, blockId: params.blockId })
     return _blockLists.push(blockList)
-    this.emit(Constants.BLOCK_LIST_CREATED)
+    this.emit(BlockListConstants.BLOCK_LIST_CREATED)
   },
 
   _addBlockToList(block, position) {
     var blockList = this.find(block.parentBlockListId)
     blockList.insertBlock(block, position)
-    this.emit(Constants.BLOCK_LIST_CHANGE)
+    this.emit(BlockListConstants.BLOCK_LIST_CHANGE)
   },
 
   onChange(callback) {
-    this.on(Constants.BLOCK_LIST_CHANGE, callback)
+    this.on(BlockListConstants.BLOCK_LIST_CHANGE, callback)
   },
 
   offChange(callback) {
-    this.removeListener(Constants.BLOCK_LIST_CHANGE, callback)
+    this.removeListener(BlockListConstants.BLOCK_LIST_CHANGE, callback)
   },
 
   dispatchToken: Dispatcher.register(function(action) {
@@ -78,7 +79,7 @@ var BlockListStore = merge(Events.EventEmitter.prototype, {
         Dispatcher.waitFor([BlockStore.dispatchToken])
         BlockListStore._addBlockToList(action.block, action.position)
         break;
-      case Constants.BLOCK_LIST_CREATE:
+      case BlockListConstants.BLOCK_LIST_CREATE:
         BlockListStore._create({ editorId: action.editorId, blockId: action.blockId })
         break
       default:
